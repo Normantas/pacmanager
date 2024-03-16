@@ -473,8 +473,21 @@ dependencies = [
 ]
 
 [[package]]
-name = "pacmanager_wrapper"
+name = "pacmanager"
 version = "0.1.0"
+dependencies = [
+ "clap",
+ "dialoguer",
+ "futures-lite",
+ "pacmanager_wrapper",
+ "tokio",
+]
+
+[[package]]
+name = "pacmanager_wrapper"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4069827292748f4d33b4c1fd322eb5945e40e080bb6f8e88e415afa7ac7783fa"
 dependencies = [
  "async-process",
  "thiserror",
@@ -593,18 +606,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
-]
-
-[[package]]
-name = "sysup"
-version = "0.1.0"
-dependencies = [
- "async-process",
- "clap",
- "dialoguer",
- "futures-lite",
- "pacmanager_wrapper",
- "tokio",
 ]
 
 [[package]]
