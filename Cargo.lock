@@ -485,9 +485,9 @@ dependencies = [
 
 [[package]]
 name = "pacmanager_wrapper"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4069827292748f4d33b4c1fd322eb5945e40e080bb6f8e88e415afa7ac7783fa"
+checksum = "ac7a5b8fd0893e8535d1f5bdceee33a443cafd19485c626210d424b4e0c116e4"
 dependencies = [
  "async-process",
  "thiserror",
