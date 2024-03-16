@@ -474,13 +474,14 @@ dependencies = [
 
 [[package]]
 name = "pacmanager"
-version = "0.1.1"
+version = "0.2.0"
 dependencies = [
  "clap",
  "dialoguer",
  "futures-lite",
  "pacmanager_wrapper",
  "tokio",
+ "whatadistro",
 ]
 
 [[package]]
@@ -696,6 +697,12 @@ name = "utf8parse"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "711b9620af191e0cdc7468a8d14e709c3dcdb115b36f838e601583af800a370a"
+
+[[package]]
+name = "whatadistro"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1c97ebad4f59809511083f2161587445631bff21bb78d9e046b9ca5b2d05d913"
 
 [[package]]
 name = "windows-sys"

@@ -1,6 +1,6 @@
 [package]
 name = "pacmanager"
-version = "0.1.1"
+version = "0.2.0"
 description = "A utility to interact with any package manager on any Linux distro"
 license = "MIT"
 edition = "2021"
@@ -13,3 +13,4 @@ dialoguer = "0.11.0"
 futures-lite = "2.2.0"
 pacmanager_wrapper = { version = "0.1.2" }
 tokio = { version = "1.36.0", features = ["macros", "rt-multi-thread"] }
+whatadistro = "0.1.0"
