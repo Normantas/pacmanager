@@ -1,6 +1,6 @@
 [package]
 name = "pacmanager"
-version = "0.2.1"
+version = "0.2.2"
 description = "A utility to interact with any package manager on any Linux distro"
 repository = "https://github.com/Normantas/pacmanager"
 license = "MIT"
