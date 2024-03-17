@@ -53,7 +53,7 @@ fn get_package_manager(args: &Args) -> PacManager {
     } else if identify.is_similar("rhel") || identify.is_similar("fedora") {
         PacManager::Yum
     } else {
-        panic!("Unsupported package manager")
+        panic!("It appers you have an unsupported package manager! If you do have a supported package manager, try using an override flag (like \"--pacman\")")
     }
 }
 
