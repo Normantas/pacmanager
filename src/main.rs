@@ -1,23 +1,11 @@
 use clap::Parser;
-use dialoguer::Input;
 use futures_lite::{io::BufReader, prelude::*};
 
-use pacmanager_wrapper::{execute_action, PacManager, PacManagerAction, PacManagerCommand};
+mod command;
+use command::{command_to_pacmanager_command, Command};
 
-#[derive(clap::ValueEnum, Clone, Debug)]
-pub enum Command {
-    // Package management
-    Install,
-    Reinstall,
-    Remove,
-    // System maintenance
-    Update,
-    Upgrade,
-    // Package search
-    List,
-    Search,
-    View,
-}
+use pacmanager_wrapper::{execute_action, PacManager, PacManagerAction};
+
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -27,33 +15,36 @@ struct Args {
 
     #[arg(index = 2, default_value_t = String::from(""))]
     package: String,
+
+    /// Override to APT package manager
+    #[arg(conflicts_with_all = ["apk", "yum", "pacman"])]
+    apt: bool,
+
+    /// Override to APK package manager
+    #[arg(conflicts_with_all = ["apt", "yum", "pacman"])]
+    apk: bool,
+
+    /// Override to YUM package manager
+    #[arg(conflicts_with_all = ["apt", "apk", "pacman"])]
+    yum: bool,
+
+    /// Override to PACMAN package manager
+    #[arg(conflicts_with_all = ["apt", "apk", "yum"])]
+    pacman: bool,
 }
 
-fn command_to_pacmanager_command(command: Command, mut package: String) -> (PacManagerCommand, bool) {
-    // Commands which do not require a package
-    match command {
-        Command::List => return (PacManagerCommand::List, false),
-        Command::Update => return (PacManagerCommand::Update, false),
-        Command::Upgrade => return (PacManagerCommand::Update, false),
-        _ => (),
-    };
-
-    // Commands which do require a package
-    if package.is_empty() {
-        package = Input::new().with_prompt("Package").interact_text().unwrap();
-    };
-
-    match command {
-        Command::Install => (PacManagerCommand::Install(package), true),
-        Command::Reinstall => (PacManagerCommand::Reinstall(package), true),
-        Command::Remove => (PacManagerCommand::Uninstall(package), true),
-        Command::View => (PacManagerCommand::View(package), false),
-        Command::Search => (PacManagerCommand::Search(package), false),
-        _ => unreachable!(),
+// TODO Make this not spaghetti code
+fn get_package_manager(args: &Args) -> PacManager {
+    if args.apt {
+        return PacManager::Apt
+    } else if args.apk {
+        return PacManager::Apk
+    } else if args.yum {
+        return PacManager::Yum
+    } else if args.pacman {
+        return PacManager::Pacman
     }
-}
 
-fn get_package_manager() -> PacManager {
     let identify = whatadistro::identify().unwrap();
     if identify.is_similar("arch") {
         PacManager::Pacman
@@ -69,6 +60,7 @@ fn get_package_manager() -> PacManager {
 #[tokio::main]
 async fn main() {
     let args = Args::parse();
+    let pacmanager = get_package_manager(&args);
     let (pacmanager_command, should_be_noninteractive) = command_to_pacmanager_command(args.command, args.package);
 
     let action = PacManagerAction {
@@ -78,7 +70,7 @@ async fn main() {
         custom_flags: None,
     };
 
-    let mut child = execute_action(action, get_package_manager())
+    let mut child = execute_action(action, pacmanager)
         .await
         .unwrap();
     let mut lines = BufReader::new(child.stdout.take().unwrap()).lines();
