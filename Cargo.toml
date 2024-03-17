@@ -2,6 +2,7 @@
 name = "pacmanager"
 version = "0.2.1"
 description = "A utility to interact with any package manager on any Linux distro"
+repository = "https://github.com/Normantas/pacmanager"
 license = "MIT"
 edition = "2021"
 

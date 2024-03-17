@@ -17,19 +17,19 @@ struct Args {
     package: String,
 
     /// Override to APT package manager
-    #[arg(conflicts_with_all = ["apk", "yum", "pacman"])]
+    #[arg(long, default_value_t = false, conflicts_with_all = ["apk", "yum", "pacman"])]
     apt: bool,
 
     /// Override to APK package manager
-    #[arg(conflicts_with_all = ["apt", "yum", "pacman"])]
+    #[arg(long, default_value_t = false, conflicts_with_all = ["apt", "yum", "pacman"])]
     apk: bool,
 
     /// Override to YUM package manager
-    #[arg(conflicts_with_all = ["apt", "apk", "pacman"])]
+    #[arg(long, default_value_t = false, conflicts_with_all = ["apt", "apk", "pacman"])]
     yum: bool,
 
     /// Override to PACMAN package manager
-    #[arg(conflicts_with_all = ["apt", "apk", "yum"])]
+    #[arg(long, default_value_t = false, conflicts_with_all = ["apt", "apk", "yum"])]
     pacman: bool,
 }
 
